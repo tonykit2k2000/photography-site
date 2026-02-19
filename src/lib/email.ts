@@ -52,7 +52,7 @@ export async function sendBookingConfirmation(
     day: "numeric",
     hour: "numeric",
     minute: "2-digit",
-    timeZone: "America/New_York",
+    timeZone: process.env.PHOTOGRAPHER_TIMEZONE ?? "America/Chicago",
   }).format(data.scheduledAt);
 
   const totalFormatted = new Intl.NumberFormat("en-US", {

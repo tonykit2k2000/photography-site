@@ -65,11 +65,11 @@ export async function createBookingEvent(
       location: input.location,
       start: {
         dateTime: input.startTime.toISOString(),
-        timeZone: "America/New_York",
+        timeZone: process.env.PHOTOGRAPHER_TIMEZONE ?? "America/Chicago",
       },
       end: {
         dateTime: endTime.toISOString(),
-        timeZone: "America/New_York",
+        timeZone: process.env.PHOTOGRAPHER_TIMEZONE ?? "America/Chicago",
       },
       reminders: {
         useDefault: false,
