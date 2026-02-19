@@ -98,15 +98,19 @@ async function handlePaymentSucceeded(intent: Stripe.PaymentIntent) {
   const remainingCents = session.totalPriceCents - totalPaidCents;
 
   // Send payment receipt email
-  sendPaymentReceipt({
-    customerName: `${session.customer?.firstName ?? ""} ${session.customer?.lastName ?? ""}`.trim(),
-    customerEmail: session.customer?.email ?? "",
-    amountCents: intent.amount,
-    paymentType,
-    remainingCents: Math.max(0, remainingCents),
-    sessionType: session.sessionType,
-    sessionId,
-  }).catch((err) => console.error("Payment receipt email failed:", err));
+  try {
+    await sendPaymentReceipt({
+      customerName: `${session.customer?.firstName ?? ""} ${session.customer?.lastName ?? ""}`.trim(),
+      customerEmail: session.customer?.email ?? "",
+      amountCents: intent.amount,
+      paymentType,
+      remainingCents: Math.max(0, remainingCents),
+      sessionType: session.sessionType,
+      sessionId,
+    });
+  } catch (err) {
+    console.error("Payment receipt email failed:", err);
+  }
 
   // Check if fully paid
   if (totalPaidCents >= session.totalPriceCents && session.gallery) {
@@ -118,22 +122,21 @@ async function handlePaymentSucceeded(intent: Stripe.PaymentIntent) {
       .set({ isActive: true })
       .where(eq(galleries.id, gallery.id));
 
-    // Send gallery ready email
-    // Note: the PIN shown here is the one the photographer set via admin.
-    // We store the hash, not the plain PIN, so we retrieve it from the gallery record.
-    // The photographer should set the PIN via admin BEFORE the session is fully paid,
-    // or the email will not include a PIN. For now we include the gallery URL.
     const baseUrl = process.env.AUTH_URL ?? "https://yoursite.com";
     const galleryUrl = `${baseUrl}/gallery/${gallery.accessToken}`;
 
-    sendGalleryReady({
-      customerName: `${session.customer?.firstName ?? ""} ${session.customer?.lastName ?? ""}`.trim(),
-      customerEmail: session.customer?.email ?? "",
-      galleryUrl,
-      galleryPin: "[See the PIN in your booking confirmation email]",
-      photoCount: gallery.photoLimit,
-      sessionType: session.sessionType,
-    }).catch((err) => console.error("Gallery ready email failed:", err));
+    try {
+      await sendGalleryReady({
+        customerName: `${session.customer?.firstName ?? ""} ${session.customer?.lastName ?? ""}`.trim(),
+        customerEmail: session.customer?.email ?? "",
+        galleryUrl,
+        galleryPin: "[See the PIN in your booking confirmation email]",
+        photoCount: gallery.photoLimit,
+        sessionType: session.sessionType,
+      });
+    } catch (err) {
+      console.error("Gallery ready email failed:", err);
+    }
   }
 }
 
