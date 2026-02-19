@@ -1,12 +1,14 @@
 import "server-only";
 import { Resend } from "resend";
 
-if (!process.env.RESEND_API_KEY) {
-  console.warn("RESEND_API_KEY environment variable is not set");
-}
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM = process.env.EMAIL_FROM ?? "hello@example.com";
+
+function getResend(): Resend {
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error("RESEND_API_KEY environment variable is not set");
+  }
+  return new Resend(process.env.RESEND_API_KEY);
+}
 
 export interface BookingConfirmationData {
   customerName: string;
@@ -58,7 +60,7 @@ export async function sendBookingConfirmation(
     currency: "USD",
   }).format(data.totalPriceCents / 100);
 
-  await resend.emails.send({
+  await getResend().emails.send({
     from: FROM,
     to: data.customerEmail,
     subject: `Booking Confirmed: ${data.sessionType} Session`,
@@ -95,7 +97,7 @@ export async function sendPaymentReceipt(
       ? "Payment Received – Paid in Full!"
       : `Payment Received – ${remainingFormatted} remaining`;
 
-  await resend.emails.send({
+  await getResend().emails.send({
     from: FROM,
     to: data.customerEmail,
     subject,
@@ -117,7 +119,7 @@ export async function sendPaymentReceipt(
  * Send a "gallery is ready" email with the gallery URL and PIN.
  */
 export async function sendGalleryReady(data: GalleryReadyData): Promise<void> {
-  await resend.emails.send({
+  await getResend().emails.send({
     from: FROM,
     to: data.customerEmail,
     subject: "Your Photo Gallery is Ready!",
