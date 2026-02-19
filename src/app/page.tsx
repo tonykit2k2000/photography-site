@@ -1,66 +1,75 @@
-import Image from "next/image";
+import { HeroSlideshow } from "@/components/home/HeroSlideshow";
+import { heroSlides } from "@/config/portfolio-images";
 import styles from "./page.module.css";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      <HeroSlideshow slides={heroSlides} />
+
+      <section className={styles.intro}>
+        <div className="container">
+          <h2 className={styles.introHeading}>
+            Every moment deserves to be remembered.
+          </h2>
+          <p className={styles.introText}>
+            Professional photography by Tony Kitt — portraits, weddings,
+            families, and milestones captured beautifully.
           </p>
+          <div className={styles.introLinks}>
+            <a href="/portfolio" className={styles.btnOutline}>
+              View Portfolio
+            </a>
+            <a href="/schedule" className={styles.btnPrimary}>
+              Book a Session
+            </a>
+          </div>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      <section className={styles.services}>
+        <div className="container">
+          <h2 className={styles.sectionHeading}>What I Offer</h2>
+          <div className={styles.serviceGrid}>
+            {services.map((service) => (
+              <div key={service.title} className={styles.serviceCard}>
+                <span className={styles.serviceIcon} aria-hidden="true">
+                  {service.icon}
+                </span>
+                <h3 className={styles.serviceTitle}>{service.title}</h3>
+                <p className={styles.serviceDesc}>{service.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+    </>
   );
 }
+
+const services = [
+  {
+    icon: "🎭",
+    title: "Portrait Sessions",
+    description:
+      "Individual and couple portraits that capture personality and emotion.",
+  },
+  {
+    icon: "💍",
+    title: "Wedding Photography",
+    description:
+      "Full-day coverage of your most important day, from preparation to reception.",
+  },
+  {
+    icon: "👨‍👩‍👧‍👦",
+    title: "Family Sessions",
+    description:
+      "Relaxed, candid family sessions that become cherished heirlooms.",
+  },
+  {
+    icon: "💼",
+    title: "Professional Headshots",
+    description:
+      "Polished headshots for LinkedIn, websites, and professional profiles.",
+  },
+];

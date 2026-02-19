@@ -1,0 +1,67 @@
+.page {
+  padding-block: var(--spacing-16);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--spacing-12);
+}
+
+.heading {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand);
+  letter-spacing: -0.02em;
+}
+
+.subheading {
+  margin-top: var(--spacing-3);
+  font-size: var(--font-size-lg);
+  color: var(--color-text-muted);
+  max-width: 520px;
+  margin-inline: auto;
+}
+
+.formWrapper {
+  max-width: var(--max-width-md);
+  margin-inline: auto;
+  margin-bottom: var(--spacing-16);
+}
+
+.info {
+  max-width: var(--max-width-md);
+  margin-inline: auto;
+  padding: var(--spacing-8);
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.infoHeading {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-brand);
+  margin-bottom: var(--spacing-4);
+}
+
+.infoList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.infoList li {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  padding-left: var(--spacing-6);
+  position: relative;
+}
+
+.infoList li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--color-success);
+  font-weight: var(--font-weight-bold);
+}

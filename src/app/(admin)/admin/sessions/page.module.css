@@ -1,0 +1,72 @@
+.heading {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand);
+  margin-bottom: var(--spacing-8);
+}
+
+.empty {
+  color: var(--color-text-muted);
+  padding-block: var(--spacing-8);
+}
+
+.tableWrapper {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+.table th {
+  text-align: left;
+  padding: var(--spacing-3) var(--spacing-4);
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface-muted);
+}
+
+.table td {
+  padding: var(--spacing-3) var(--spacing-4);
+  border-bottom: 1px solid var(--color-surface-muted);
+  color: var(--color-text);
+  vertical-align: middle;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px var(--spacing-2);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  text-transform: capitalize;
+}
+
+.badge_pending { background: #fef3c7; color: #92400e; }
+.badge_confirmed { background: #d1fae5; color: #065f46; }
+.badge_completed { background: #e0e7ff; color: #3730a3; }
+.badge_cancelled { background: #fee2e2; color: #991b1b; }
+
+.link {
+  color: var(--color-accent);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-xs);
+}
+
+.link:hover {
+  color: var(--color-brand);
+}

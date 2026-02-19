@@ -1,0 +1,30 @@
+.page {
+  padding: var(--spacing-12) var(--spacing-6);
+  max-width: var(--max-width-xl);
+  margin-inline: auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--spacing-10);
+}
+
+.title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand);
+  letter-spacing: -0.015em;
+}
+
+.subtitle {
+  margin-top: var(--spacing-2);
+  font-size: var(--font-size-base);
+  color: var(--color-text-muted);
+}
+
+.empty {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding-block: var(--spacing-16);
+  font-size: var(--font-size-lg);
+}

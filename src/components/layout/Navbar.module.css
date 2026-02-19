@@ -1,0 +1,70 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-above);
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(8px);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+}
+
+.logo {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-brand);
+  letter-spacing: -0.01em;
+}
+
+.logo:hover {
+  color: var(--color-accent);
+  transition: color var(--transition-fast);
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  list-style: none;
+}
+
+.link {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.link:hover {
+  color: var(--color-accent);
+}
+
+/* Last link styled as a CTA button */
+.links li:last-child .link {
+  color: var(--color-surface);
+  background-color: var(--color-accent);
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-sm);
+}
+
+.links li:last-child .link:hover {
+  background-color: var(--color-accent-light);
+  color: var(--color-brand);
+}
+
+@media (max-width: 640px) {
+  .links {
+    gap: var(--spacing-4);
+  }
+
+  .link {
+    font-size: var(--font-size-xs);
+  }
+}
