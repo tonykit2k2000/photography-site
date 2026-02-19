@@ -1,14 +1,18 @@
-import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export default auth((req) => {
-  const { pathname } = req.nextUrl;
+export default function proxy(request: NextRequest): NextResponse {
+  const { pathname } = request.nextUrl;
 
   // ── Admin route protection ────────────────────────────────────────────────
-  // /admin/signin is excluded by the matcher below so it always passes through
-  if (pathname.startsWith("/admin")) {
-    if (!req.auth?.user?.adminId) {
-      const signInUrl = new URL("/admin/signin", req.url);
+  // Quick cookie check — full JWT verification happens in (admin)/layout.tsx
+  if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/signin")) {
+    const hasSession =
+      request.cookies.has("__Secure-authjs.session-token") ||
+      request.cookies.has("authjs.session-token");
+
+    if (!hasSession) {
+      const signInUrl = new URL("/admin/signin", request.url);
       signInUrl.searchParams.set("callbackUrl", pathname);
       return NextResponse.redirect(signInUrl);
     }
@@ -20,22 +24,22 @@ export default auth((req) => {
   if (galleryMatch) {
     const token = galleryMatch[1];
     const cookieName = `gallery_session_${token}`;
-    const sessionCookie = req.cookies.get(cookieName);
+    const sessionCookie = request.cookies.get(cookieName);
 
     if (!sessionCookie?.value) {
       return NextResponse.redirect(
-        new URL(`/gallery/${token}/unlock`, req.url)
+        new URL(`/gallery/${token}/unlock`, request.url)
       );
     }
   }
 
   return NextResponse.next();
-});
+}
 
 export const config = {
   matcher: [
-    "/admin/((?!signin$).*)", // all /admin/* EXCEPT /admin/signin
-    "/admin", // /admin root itself
+    "/admin/((?!signin$).*)", // all /admin/* except /admin/signin
+    "/admin", // /admin root
     "/gallery/:path*",
   ],
 };
