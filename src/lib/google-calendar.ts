@@ -58,7 +58,7 @@ export async function createBookingEvent(
 
   const event = await calendar.events.insert({
     calendarId: CALENDAR_ID,
-    sendUpdates: "all", // sends invite email to attendees
+    sendUpdates: "none",
     requestBody: {
       summary: input.title,
       description: input.description,
@@ -71,12 +71,6 @@ export async function createBookingEvent(
         dateTime: endTime.toISOString(),
         timeZone: "America/New_York",
       },
-      attendees: [
-        {
-          email: input.attendeeEmail,
-          displayName: input.attendeeName,
-        },
-      ],
       reminders: {
         useDefault: false,
         overrides: [
