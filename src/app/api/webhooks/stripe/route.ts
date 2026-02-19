@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { db } from "@/db";
 import { payments, sessions, galleries } from "@/db/schema";
-import { eq, sum } from "drizzle-orm";
+import { and, eq, sum } from "drizzle-orm";
 import { constructWebhookEvent } from "@/lib/stripe";
 import { sendPaymentReceipt, sendGalleryReady } from "@/lib/email";
 
@@ -88,14 +88,16 @@ async function handlePaymentSucceeded(intent: Stripe.PaymentIntent) {
   });
   if (!session) return;
 
-  // Calculate total paid so far
+  // Calculate total paid so far (succeeded payments only)
   const result = await db
     .select({ total: sum(payments.amountCents) })
     .from(payments)
-    .where(eq(payments.sessionId, sessionId));
+    .where(and(eq(payments.sessionId, sessionId), eq(payments.status, "succeeded")));
 
   const totalPaidCents = Number(result[0]?.total ?? 0);
   const remainingCents = session.totalPriceCents - totalPaidCents;
+
+  console.log(`Webhook: session=${sessionId} totalPaid=${totalPaidCents} totalPrice=${session.totalPriceCents} hasGallery=${!!session.gallery}`);
 
   // Send payment receipt email
   try {
