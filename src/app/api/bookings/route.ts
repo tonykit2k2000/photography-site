@@ -13,8 +13,7 @@ const bookingSchema = z.object({
   email: z.string().email().trim().toLowerCase(),
   phone: z.string().min(7).max(20).trim(),
   sessionType: z.string().min(1).max(100),
-  preferredDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  preferredTime: z.string().regex(/^\d{2}:\d{2}$/),
+  scheduledAt: z.string().datetime(),
   location: z.string().max(300).trim().optional(),
   notes: z.string().max(1000).trim().optional(),
   totalPriceCents: z.number().int().min(0),
@@ -37,7 +36,7 @@ export async function POST(request: NextRequest) {
   }
 
   const data = parsed.data;
-  const scheduledAt = new Date(`${data.preferredDate}T${data.preferredTime}:00`);
+  const scheduledAt = new Date(data.scheduledAt);
 
   if (isNaN(scheduledAt.getTime()) || scheduledAt < new Date()) {
     return NextResponse.json(

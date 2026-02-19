@@ -50,11 +50,23 @@ export function BookingForm() {
     setIsSubmitting(true);
 
     try {
+      // Compute ISO timestamp in the browser's local timezone
+      const scheduledAt = new Date(
+        `${formData.preferredDate}T${formData.preferredTime}:00`
+      ).toISOString();
+
       const res = await fetch("/api/bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...formData,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          sessionType: formData.sessionType,
+          scheduledAt,
+          location: formData.location,
+          notes: formData.notes,
           totalPriceCents: selectedPricing,
         }),
       });
