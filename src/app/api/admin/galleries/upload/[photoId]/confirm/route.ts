@@ -19,15 +19,15 @@ export async function POST(
 
   const { photoId } = await params;
 
-  const photo = await db.query.galleryPhotos.findFirst({
-    where: eq(galleryPhotos.id, photoId),
-  });
+  const [updated] = await db
+    .update(galleryPhotos)
+    .set({ uploadedAt: new Date() })
+    .where(eq(galleryPhotos.id, photoId))
+    .returning();
 
-  if (!photo) {
+  if (!updated) {
     return NextResponse.json({ error: "Photo not found" }, { status: 404 });
   }
 
-  // Photo is already in the DB — just return it as confirmed
-  // In a production system, you might verify the S3 object exists here
-  return NextResponse.json({ photo });
+  return NextResponse.json({ photo: updated });
 }

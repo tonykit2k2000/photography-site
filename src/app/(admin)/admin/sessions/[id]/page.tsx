@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { db } from "@/db";
-import { sessions, payments as paymentsTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { sessions, payments as paymentsTable, galleryPhotos } from "@/db/schema";
+import { eq, isNotNull } from "drizzle-orm";
 import Link from "next/link";
 import { GalleryManager } from "@/components/admin/GalleryManager";
 import styles from "./page.module.css";
@@ -24,7 +24,11 @@ export default async function SessionDetailPage({ params }: Props) {
         orderBy: (p, { asc }) => [asc(p.createdAt)],
       },
       gallery: {
-        with: { photos: true },
+        with: {
+          photos: {
+            where: isNotNull(galleryPhotos.uploadedAt),
+          },
+        },
       },
     },
   });

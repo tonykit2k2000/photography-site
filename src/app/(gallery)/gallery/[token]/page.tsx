@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import { db } from "@/db";
 import { galleries, galleryPhotos, gallerySessions } from "@/db/schema";
-import { eq, and, gt } from "drizzle-orm";
+import { eq, and, gt, isNotNull } from "drizzle-orm";
 import { generateSignedPhotoUrl } from "@/lib/cloudfront";
 import { GalleryGrid } from "@/components/gallery/GalleryGrid";
 import styles from "./page.module.css";
@@ -48,7 +48,10 @@ export default async function GalleryPage({ params }: Props) {
 
   // Load photos
   const photos = await db.query.galleryPhotos.findMany({
-    where: eq(galleryPhotos.galleryId, gallery.id),
+    where: and(
+      eq(galleryPhotos.galleryId, gallery.id),
+      isNotNull(galleryPhotos.uploadedAt)
+    ),
     orderBy: (galleryPhotos, { asc }) => [asc(galleryPhotos.sortOrder)],
     limit: gallery.photoLimit,
   });

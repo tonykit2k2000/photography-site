@@ -114,7 +114,7 @@ export const galleryPhotos = pgTable("gallery_photos", {
   width: integer("width"),
   height: integer("height"),
   sortOrder: integer("sort_order").notNull().default(0),
-  uploadedAt: timestamp("uploaded_at").defaultNow(),
+  uploadedAt: timestamp("uploaded_at"),
 });
 
 export const gallerySessions = pgTable("gallery_sessions", {
