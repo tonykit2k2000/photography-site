@@ -5,6 +5,7 @@ import { payments, sessions, galleries } from "@/db/schema";
 import { and, eq, sum } from "drizzle-orm";
 import { constructWebhookEvent } from "@/lib/stripe";
 import { sendPaymentReceipt, sendGalleryReady } from "@/lib/email";
+import { hashPin } from "@/lib/gallery-auth";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const payload = await request.text();
@@ -118,10 +119,12 @@ async function handlePaymentSucceeded(intent: Stripe.PaymentIntent) {
   if (totalPaidCents >= session.totalPriceCents && session.gallery) {
     const gallery = session.gallery;
 
-    // Activate the gallery
+    // Generate a fresh PIN and activate the gallery
+    const pin = Math.floor(100000 + Math.random() * 900000).toString();
+    const pinHash = await hashPin(pin);
     await db
       .update(galleries)
-      .set({ isActive: true })
+      .set({ isActive: true, passwordHash: pinHash })
       .where(eq(galleries.id, gallery.id));
 
     const baseUrl = process.env.AUTH_URL ?? "https://yoursite.com";
@@ -132,7 +135,7 @@ async function handlePaymentSucceeded(intent: Stripe.PaymentIntent) {
         customerName: `${session.customer?.firstName ?? ""} ${session.customer?.lastName ?? ""}`.trim(),
         customerEmail: session.customer?.email ?? "",
         galleryUrl,
-        galleryPin: "[See the PIN in your booking confirmation email]",
+        galleryPin: pin,
         photoCount: gallery.photoLimit,
         sessionType: session.sessionType,
       });
