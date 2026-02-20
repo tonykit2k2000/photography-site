@@ -17,6 +17,7 @@ export const s3Client = new S3Client({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },
+  requestChecksumRequired: false, // prevents CRC32 headers in browser-facing presigned PUT URLs
 });
 
 const GALLERY_BUCKET = process.env.AWS_S3_BUCKET!;
