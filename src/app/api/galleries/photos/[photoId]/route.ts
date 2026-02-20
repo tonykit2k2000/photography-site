@@ -62,13 +62,14 @@ export async function GET(
       return NextResponse.json({ error: "File not found in storage" }, { status: 404 });
     }
     const bytes = await s3Response.Body.transformToByteArray();
+    const buffer = Buffer.from(bytes);
     const contentType = s3Response.ContentType ?? "image/jpeg";
     const encodedFilename = encodeURIComponent(photo.filename);
-    return new Response(bytes, {
+    return new Response(buffer, {
       headers: {
         "Content-Type": contentType,
         "Content-Disposition": `attachment; filename="${photo.filename}"; filename*=UTF-8''${encodedFilename}`,
-        "Content-Length": String(bytes.byteLength),
+        "Content-Length": String(buffer.byteLength),
       },
     });
   }
