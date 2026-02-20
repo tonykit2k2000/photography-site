@@ -39,13 +39,15 @@ export function GalleryGrid({ photos, galleryToken }: GalleryGridProps) {
         `/api/galleries/photos/${photoId}?download=true`
       );
       if (!res.ok) throw new Error("Download failed");
-      const data = (await res.json()) as { url: string };
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.href = data.url;
+      a.href = url;
       a.download = filename;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     } catch {
       alert("Download failed. Please try again.");
     } finally {

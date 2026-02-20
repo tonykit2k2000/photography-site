@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { galleryPhotos, galleries, gallerySessions } from "@/db/schema";
 import { eq, and, gt } from "drizzle-orm";
-import { generateSignedDownloadUrl, generateSignedPhotoUrl } from "@/lib/cloudfront";
+import { generateSignedPhotoUrl } from "@/lib/cloudfront";
+import { GetObjectCommand } from "@aws-sdk/client-s3";
+import { s3Client } from "@/lib/s3";
 
 interface RouteParams {
   params: Promise<{ photoId: string }>;
@@ -11,7 +13,7 @@ interface RouteParams {
 export async function GET(
   request: NextRequest,
   { params }: RouteParams
-): Promise<NextResponse> {
+): Promise<NextResponse | Response> {
   const { photoId } = await params;
   const isDownload = request.nextUrl.searchParams.get("download") === "true";
 
@@ -47,10 +49,31 @@ export async function GET(
     return NextResponse.json({ error: "Session expired" }, { status: 401 });
   }
 
-  // Generate the appropriate signed URL
-  const signedUrl = isDownload
-    ? generateSignedDownloadUrl(photo.s3Key, photo.filename)
-    : generateSignedPhotoUrl(photo.s3Key);
+  if (isDownload) {
+    // Stream the file from S3 with proper Content-Disposition header.
+    // Using a blob URL on the client means a.download works correctly
+    // (cross-origin URLs ignore the download attribute).
+    const command = new GetObjectCommand({
+      Bucket: photo.s3Bucket,
+      Key: photo.s3Key,
+    });
+    const s3Response = await s3Client.send(command);
+    if (!s3Response.Body) {
+      return NextResponse.json({ error: "File not found in storage" }, { status: 404 });
+    }
+    const bytes = await s3Response.Body.transformToByteArray();
+    const contentType = s3Response.ContentType ?? "image/jpeg";
+    const encodedFilename = encodeURIComponent(photo.filename);
+    return new Response(bytes, {
+      headers: {
+        "Content-Type": contentType,
+        "Content-Disposition": `attachment; filename="${photo.filename}"; filename*=UTF-8''${encodedFilename}`,
+        "Content-Length": String(bytes.byteLength),
+      },
+    });
+  }
 
+  // Generate signed CloudFront URL for gallery display
+  const signedUrl = generateSignedPhotoUrl(photo.s3Key);
   return NextResponse.json({ url: signedUrl });
 }
