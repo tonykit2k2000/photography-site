@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { galleries, galleryPhotos, gallerySessions } from "@/db/schema";
-import { eq, and, gt } from "drizzle-orm";
+import { eq, and, gt, isNotNull } from "drizzle-orm";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { s3Client } from "@/lib/s3";
 import archiver from "archiver";
-import { Readable } from "stream";
 
 interface RouteParams {
   params: Promise<{ token: string }>;
@@ -50,9 +49,12 @@ export async function GET(
     return NextResponse.json({ error: "Session expired" }, { status: 401 });
   }
 
-  // Load photos
+  // Load confirmed photos only
   const photos = await db.query.galleryPhotos.findMany({
-    where: eq(galleryPhotos.galleryId, gallery.id),
+    where: and(
+      eq(galleryPhotos.galleryId, gallery.id),
+      isNotNull(galleryPhotos.uploadedAt)
+    ),
     orderBy: (galleryPhotos, { asc }) => [asc(galleryPhotos.sortOrder)],
     limit: gallery.photoLimit,
   });
@@ -61,7 +63,7 @@ export async function GET(
     return NextResponse.json({ error: "No photos found" }, { status: 404 });
   }
 
-  // Create a ZIP archive streamed directly to the response
+  // Fetch all photos from S3 and build ZIP
   const archive = archiver("zip", { zlib: { level: 5 } });
 
   for (const photo of photos) {
@@ -71,14 +73,15 @@ export async function GET(
     });
     const s3Response = await s3Client.send(command);
     if (s3Response.Body) {
-      const stream = s3Response.Body as NodeJS.ReadableStream;
-      archive.append(Readable.from(stream), { name: photo.filename });
+      // transformToByteArray() works reliably in both Node.js and Edge runtimes
+      const bytes = await s3Response.Body.transformToByteArray();
+      archive.append(Buffer.from(bytes), { name: photo.filename });
     }
   }
 
   archive.finalize();
 
-  // Stream archive to response
+  // Buffer the completed archive
   const chunks: Uint8Array[] = [];
   for await (const chunk of archive) {
     chunks.push(chunk as Uint8Array);
