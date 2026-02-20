@@ -53,7 +53,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       s3Bucket: GALLERY_BUCKET,
       filename: safeName,
       fileSizeBytes,
-      sortOrder: Date.now(), // use timestamp as sort order for now
+      sortOrder: Math.floor(Date.now() / 1000), // Unix seconds fits in integer
     })
     .returning();
 
