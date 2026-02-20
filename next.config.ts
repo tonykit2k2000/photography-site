@@ -6,7 +6,7 @@ const ContentSecurityPolicy = `
   style-src 'self' 'unsafe-inline';
   img-src 'self' data: blob: https://*.cloudfront.net;
   font-src 'self';
-  connect-src 'self' https://api.stripe.com;
+  connect-src 'self' https://api.stripe.com https://*.s3.us-east-2.amazonaws.com;
   frame-src https://js.stripe.com https://hooks.stripe.com;
   object-src 'none';
   base-uri 'self';
