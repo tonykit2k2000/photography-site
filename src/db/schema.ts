@@ -129,6 +129,13 @@ export const gallerySessions = pgTable("gallery_sessions", {
   expiresAt: timestamp("expires_at").notNull(),
 });
 
+export const pinAttempts = pgTable("pin_attempts", {
+  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
+  galleryToken: varchar("gallery_token", { length: 64 }).notNull(),
+  ipAddress: text("ip_address").notNull(),
+  attemptedAt: timestamp("attempted_at").notNull().defaultNow(),
+});
+
 export const adminUsers = pgTable("admin_users", {
   id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
   email: varchar("email", { length: 255 }).notNull().unique(),
@@ -212,3 +219,6 @@ export type NewGallerySession = typeof gallerySessions.$inferInsert;
 
 export type AdminUser = typeof adminUsers.$inferSelect;
 export type NewAdminUser = typeof adminUsers.$inferInsert;
+
+export type PinAttempt = typeof pinAttempts.$inferSelect;
+export type NewPinAttempt = typeof pinAttempts.$inferInsert;

@@ -34,6 +34,10 @@ export function PinEntry({ token }: PinEntryProps) {
       if (res.ok) {
         router.replace(`/gallery/${token}`);
         router.refresh();
+      } else if (res.status === 429) {
+        setError("Too many incorrect attempts. Please try again in 15 minutes.");
+        setAttempts(MAX_ATTEMPTS); // lock the form immediately
+        setPin("");
       } else if (res.status === 401) {
         const newAttempts = attempts + 1;
         setAttempts(newAttempts);
