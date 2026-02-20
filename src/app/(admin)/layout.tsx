@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
+import { AdminBottomNav } from "@/components/admin/AdminBottomNav";
 import styles from "./layout.module.css";
 
 export default async function AdminLayout({
@@ -17,6 +18,7 @@ export default async function AdminLayout({
     <div className={styles.layout}>
       <AdminSidebar userName={session.user.name ?? "Admin"} />
       <main className={styles.main}>{children}</main>
+      <AdminBottomNav />
     </div>
   );
 }
