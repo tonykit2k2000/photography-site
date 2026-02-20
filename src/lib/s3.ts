@@ -11,13 +11,15 @@ if (!process.env.AWS_REGION || !process.env.AWS_ACCESS_KEY_ID || !process.env.AW
   throw new Error("AWS credentials environment variables are not set");
 }
 
+// @ts-expect-error requestChecksumCalculation is valid at runtime in @aws-sdk/client-s3 v3.621+
+// but is missing from TypeScript types; "when_required" disables auto-CRC32 in presigned PUT URLs
 export const s3Client = new S3Client({
   region: process.env.AWS_REGION,
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },
-  requestChecksumRequired: false, // prevents CRC32 headers in browser-facing presigned PUT URLs
+  requestChecksumCalculation: "when_required",
 });
 
 const GALLERY_BUCKET = process.env.AWS_S3_BUCKET!;
