@@ -29,12 +29,13 @@ export function Navbar() {
   return (
     <header className={`${styles.header} ${isTransparent ? styles.transparent : ""}`}>
       <nav className={`${styles.nav} container`} aria-label="Main navigation">
-        <Link href="/" className={styles.logo}>
-          <img
-            src="/logo.png"
-            alt="Tony Kitt Photography"
-            className={`${styles.logoImg} ${isTransparent ? styles.logoImgLight : ""}`}
-          />
+        <Link
+          href="/"
+          className={`${styles.logo} ${isTransparent ? styles.logoLight : ""}`}
+          aria-label="Tony Kitt Photography — home"
+        >
+          <span className={styles.logoName}>Tony Kitt</span>
+          <span className={styles.logoSub}>Photography</span>
         </Link>
         <ul className={styles.links} role="list">
           {navLinks.map((link) => (

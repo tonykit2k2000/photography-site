@@ -23,24 +23,48 @@
   height: 4rem;
 }
 
+/* ── Text wordmark logo ─────────────────────────────── */
+
 .logo {
   flex-shrink: 0;
   display: flex;
-  align-items: center;
-  margin-left: -1.25rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  text-decoration: none;
 }
 
-.logoImg {
-  height: 54px;
-  width: auto;
-  display: block;
-  transition: filter var(--transition-base);
+.logoName {
+  font-size: 1.05rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-brand);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  transition: color var(--transition-fast);
 }
 
-/* Add drop-shadow when floating over hero so logo stays readable at its natural colors */
-.logoImgLight {
-  filter: drop-shadow(0 1px 3px rgb(0 0 0 / 0.7)) drop-shadow(0 2px 8px rgb(0 0 0 / 0.4));
+.logoSub {
+  font-size: 0.5rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-accent);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  line-height: 1;
+  transition: color var(--transition-fast);
 }
+
+/* Transparent (hero overlay) state — both text lines go white */
+.logoLight .logoName {
+  color: white;
+  text-shadow: 0 1px 4px rgb(0 0 0 / 0.5);
+}
+
+.logoLight .logoSub {
+  color: var(--color-accent-light);
+  text-shadow: 0 1px 4px rgb(0 0 0 / 0.5);
+}
+
+/* ── Nav links ──────────────────────────────────────── */
 
 .links {
   display: flex;
@@ -101,8 +125,12 @@
 
 /* On small phones: hide Portfolio/About/Blog, keep only the CTA button */
 @media (max-width: 500px) {
-  .logoImg {
-    height: 30px;
+  .logoName {
+    font-size: 0.9rem;
+  }
+
+  .logoSub {
+    font-size: 0.45rem;
   }
 
   .links li:not(:last-child) {
