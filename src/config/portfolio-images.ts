@@ -27,42 +27,69 @@ export interface PortfolioImage {
  */
 export const heroSlides: SlideImage[] = [
   {
-    src: "/placeholder-hero-1.jpg",
-    alt: "Portrait photography — golden hour session",
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-1.jpg",
+    alt: "Engagement couple",
   },
   {
-    src: "/placeholder-hero-2.jpg",
-    alt: "Wedding photography — ceremony moment",
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-2.jpg",
+    alt: "Engagement couple",
   },
   {
-    src: "/placeholder-hero-3.jpg",
-    alt: "Family photography — outdoor session",
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-3.jpg",
+    alt: "Prom portrait",
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-4.jpg",
+    alt: "Senior portrait",
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-5.jpg",
+    alt: "Wedding",
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-6.jpg",
+    alt: "Senior portrait",
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-7.jpg",
+    alt: "Prom",
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-8.jpg",
+    alt: "Senior portrait",
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-9.jpg",
+    alt: "Covered bridge",
   },
 ];
+
 
 /**
  * Portfolio gallery images.
  */
 export const portfolioImages: PortfolioImage[] = [
   {
-    src: "/placeholder-portfolio-1.jpg",
-    alt: "Portrait session",
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-4.jpg",
+    alt: "Prom portrait",
     category: "portrait",
-    aspectRatio: 0.75, // 3:4 portrait
+    aspectRatio: 0.75,   // tall portrait (3:4)
   },
   {
-    src: "/placeholder-portfolio-2.jpg",
-    alt: "Wedding ceremony",
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-5.jpg",
+    alt: "Wedding ceremony moment",
     category: "wedding",
-    aspectRatio: 1.5, // 3:2 landscape
+    aspectRatio: 1.5,    // wide landscape (3:2)
   },
   {
-    src: "/placeholder-portfolio-3.jpg",
-    alt: "Family portrait",
-    category: "family",
-    aspectRatio: 1.33, // 4:3
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-9.jpg",
+    alt: "Covered bridge",
+    category: "portrait",
+    aspectRatio: 1.33,   // landscape (4:3)
   },
+  // keep adding more entries...
 ];
+
 
 /**
  * Available session types shown on the booking form.
