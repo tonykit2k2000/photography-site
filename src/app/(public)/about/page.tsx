@@ -13,10 +13,9 @@ export default function AboutPage() {
     <div className={styles.page}>
       <div className={`${styles.inner} container`}>
         <div className={styles.photoColumn}>
-          {/* TODO: replace src with your actual headshot image path or CloudFront URL */}
           <div className={styles.photoPlaceholder}>
             <Image
-              src="/headshot-placeholder.jpg"
+              src="/headshot.jpg"
               alt="Tony Kitt, photographer"
               fill
               style={{ objectFit: "cover", borderRadius: "inherit" }}
