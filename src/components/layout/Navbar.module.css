@@ -37,9 +37,9 @@
   transition: filter var(--transition-base);
 }
 
-/* Invert dark logo to white when floating over hero */
+/* Add drop-shadow when floating over hero so logo stays readable at its natural colors */
 .logoImgLight {
-  filter: brightness(0) invert(1);
+  filter: drop-shadow(0 1px 3px rgb(0 0 0 / 0.7)) drop-shadow(0 2px 8px rgb(0 0 0 / 0.4));
 }
 
 .links {
