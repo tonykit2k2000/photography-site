@@ -6,7 +6,9 @@ import styles from "./page.module.css";
 export default function HomePage() {
   return (
     <>
-      <HeroSlideshow slides={heroSlides} />
+      <div className={styles.heroWrapper}>
+        <HeroSlideshow slides={heroSlides} />
+      </div>
 
       <section className={styles.intro}>
         <div className="container">

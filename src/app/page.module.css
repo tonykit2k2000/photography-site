@@ -1,3 +1,8 @@
+/* Pull the hero up so it starts behind the sticky transparent navbar */
+.heroWrapper {
+  margin-top: -4rem;
+}
+
 .intro {
   padding-block: var(--spacing-24);
   text-align: center;

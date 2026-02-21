@@ -6,6 +6,14 @@
   border-bottom: 1px solid var(--color-border);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
+  transition: background-color var(--transition-base), border-color var(--transition-base);
+}
+
+.header.transparent {
+  background-color: transparent;
+  border-bottom-color: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 .nav {
@@ -26,6 +34,12 @@
   height: 54px;
   width: auto;
   display: block;
+  transition: filter var(--transition-base);
+}
+
+/* Invert dark logo to white when floating over hero */
+.logoImgLight {
+  filter: brightness(0) invert(1);
 }
 
 .links {
@@ -48,15 +62,28 @@
   color: var(--color-accent);
 }
 
-/* Last link styled as a CTA button */
-.links li:last-child .link {
+/* Transparent state: non-CTA links turn white */
+.linkLight {
+  color: rgb(255 255 255 / 0.85);
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.4);
+}
+
+.linkLight:hover {
+  color: white;
+}
+
+/* Last link styled as a CTA button — same in both states */
+.links li:last-child .link,
+.links li:last-child .linkLight {
   color: var(--color-surface);
   background-color: var(--color-accent);
   padding: var(--spacing-2) var(--spacing-4);
   border-radius: var(--radius-sm);
+  text-shadow: none;
 }
 
-.links li:last-child .link:hover {
+.links li:last-child .link:hover,
+.links li:last-child .linkLight:hover {
   background-color: var(--color-accent-light);
   color: var(--color-brand);
 }
@@ -66,7 +93,8 @@
     gap: var(--spacing-4);
   }
 
-  .link {
+  .link,
+  .linkLight {
     font-size: var(--font-size-xs);
   }
 }
