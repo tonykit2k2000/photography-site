@@ -11,7 +11,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 4rem;
+  height: 7rem;
 }
 
 .logo {
@@ -21,7 +21,7 @@
 }
 
 .logoImg {
-  height: 40px;
+  height: 120px;
   width: auto;
   display: block;
 }
@@ -72,7 +72,7 @@
 /* On small phones: hide Portfolio/About/Blog, keep only the CTA button */
 @media (max-width: 500px) {
   .logoImg {
-    height: 30px;
+    height: 80px;
   }
 
   .links li:not(:last-child) {
