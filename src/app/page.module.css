@@ -94,7 +94,10 @@
 }
 
 .serviceIcon {
-  font-size: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-accent);
 }
 
 .serviceTitle {

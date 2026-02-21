@@ -69,7 +69,6 @@ export function PortfolioGrid({ images, categories }: PortfolioGridProps) {
               src={image.src}
               alt={image.alt}
               fill
-              unoptimized
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               style={{ objectFit: "cover" }}
               className={styles.gridImage}
@@ -101,7 +100,6 @@ export function PortfolioGrid({ images, categories }: PortfolioGridProps) {
               src={currentImage.src}
               alt={currentImage.alt}
               fill
-              unoptimized
               sizes="100vw"
               style={{ objectFit: "contain" }}
               priority

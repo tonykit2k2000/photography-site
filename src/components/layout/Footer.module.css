@@ -33,3 +33,21 @@
 .link:hover {
   color: var(--color-accent-light);
 }
+
+.socials {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(255 255 255 / 0.7);
+  transition: color var(--transition-fast);
+}
+
+.socialLink:hover {
+  color: var(--color-accent-light);
+}

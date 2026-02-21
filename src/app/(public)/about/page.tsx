@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn about Tony Kitt — professional photographer capturing portraits, weddings, families, and milestones.",
+    "Learn about Tony Kitt — professional photographer capturing portraits, weddings, families, and milestones in Central Illinois.",
 };
 
 export default function AboutPage() {
@@ -12,9 +13,15 @@ export default function AboutPage() {
     <div className={styles.page}>
       <div className={`${styles.inner} container`}>
         <div className={styles.photoColumn}>
-          {/* Replace with your actual photo */}
-          <div className={styles.photoPlaceholder} aria-hidden="true">
-            <span>Your Photo Here</span>
+          {/* TODO: replace src with your actual headshot image path or CloudFront URL */}
+          <div className={styles.photoPlaceholder}>
+            <Image
+              src="/headshot-placeholder.jpg"
+              alt="Tony Kitt, photographer"
+              fill
+              style={{ objectFit: "cover", borderRadius: "inherit" }}
+              sizes="(max-width: 768px) 320px, 400px"
+            />
           </div>
         </div>
 
@@ -28,8 +35,8 @@ export default function AboutPage() {
 
           <div className={styles.body}>
             <p>
-              Based in [Your City], I specialize in portrait, family, and
-              wedding photography. With over [X] years of experience, I believe
+              Based in Central Illinois, I specialize in portrait, family, and
+              wedding photography. With over 10+ years of experience, I believe
               every person and every moment is unique — and my job is to make
               sure you&apos;ll be able to relive yours forever.
             </p>
@@ -40,9 +47,10 @@ export default function AboutPage() {
               conversation.
             </p>
             <p>
-              When I&apos;m not behind the lens, you can find me [your personal
-              detail — hiking, cooking, etc.]. That sense of joy and authenticity
-              is what I bring to every shoot.
+              {/* TODO: personalize this sentence with your own interests */}
+              When I&apos;m not behind the lens, you can find me exploring new
+              locations and enjoying the outdoors. That sense of joy and
+              authenticity is what I bring to every shoot.
             </p>
           </div>
 

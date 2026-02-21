@@ -15,15 +15,12 @@
 }
 
 .photoPlaceholder {
+  position: relative;
   aspect-ratio: 3 / 4;
   background-color: var(--color-surface-muted);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-text-muted);
-  font-size: var(--font-size-sm);
+  overflow: hidden;
 }
 
 .textColumn {

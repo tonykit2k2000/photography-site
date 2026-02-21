@@ -29,6 +29,27 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "Tony Kitt Photography",
+  description:
+    "Professional photography for portraits, weddings, families, headshots, and milestones in Central Illinois.",
+  url: "https://tonykittphotography.com",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Central Illinois",
+    addressRegion: "IL",
+    addressCountry: "US",
+  },
+  priceRange: "$$",
+  sameAs: [
+    "https://www.instagram.com/TODO", // TODO: update with your Instagram URL
+    "https://www.facebook.com/TODO", // TODO: update with your Facebook URL
+    "https://www.linkedin.com/in/TODO", // TODO: update with your LinkedIn URL
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -37,6 +58,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <Navbar />
         <main>{children}</main>
         <Footer />

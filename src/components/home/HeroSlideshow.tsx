@@ -69,7 +69,6 @@ export function HeroSlideshow({
             src={slide.src}
             alt={slide.alt}
             fill
-            unoptimized
             priority={index === 0}
             sizes="100vw"
             style={{ objectFit: "contain" }}
