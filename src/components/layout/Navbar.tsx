@@ -13,7 +13,7 @@ export function Navbar() {
     <header className={styles.header}>
       <nav className={`${styles.nav} container`} aria-label="Main navigation">
         <Link href="/" className={styles.logo}>
-          Tony Kitt Photography
+          <img src="/logo.png" alt="Tony Kitt Photography" className={styles.logoImg} />
         </Link>
         <ul className={styles.links} role="list">
           {navLinks.map((link) => (
