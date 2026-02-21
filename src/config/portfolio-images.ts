@@ -28,19 +28,19 @@ export interface PortfolioImage {
 export const heroSlides: SlideImage[] = [
   {
     src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-1.jpg",
-    alt: "Engagement couple",
+    alt: "Senior portrait",
   },
   {
     src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-2.jpg",
-    alt: "Engagement couple",
+    alt: "Baby portrait",
   },
   {
     src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-3.jpg",
-    alt: "Prom portrait",
+    alt: "Landscape",
   },
   {
     src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-4.jpg",
-    alt: "Senior portrait",
+    alt: "Engagement couple",
   },
   {
     src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-5.jpg",
@@ -52,7 +52,7 @@ export const heroSlides: SlideImage[] = [
   },
   {
     src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-7.jpg",
-    alt: "Prom",
+    alt: "Landscape",
   },
   {
     src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-8.jpg",
@@ -60,7 +60,43 @@ export const heroSlides: SlideImage[] = [
   },
   {
     src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-9.jpg",
-    alt: "Covered bridge",
+    alt: "Headshot",
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-10.jpg",
+    alt: "Prom",
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-11.jpg",
+    alt: "Prom",
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-12.jpg",
+    alt: "Landscape",
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-12b.jpg",
+    alt: "Portrait",
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-14.jpg",
+    alt: "Engagement couple",
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-15.jpg",
+    alt: "Headshot",
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-16.jpg",
+    alt: "Family portrait",
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-17.jpg",
+    alt: "Headshot",
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-18.jpg",
+    alt: "Family portrait",
   },
 ];
 
