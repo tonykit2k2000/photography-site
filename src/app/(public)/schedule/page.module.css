@@ -1,3 +1,56 @@
+/* ── Coming Soon state ──────────────────────────────── */
+
+.comingSoonPage {
+  padding-block: var(--spacing-24);
+}
+
+.comingSoonInner {
+  max-width: 480px;
+  margin-inline: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-6);
+}
+
+.comingSoonIcon {
+  color: var(--color-accent);
+}
+
+.comingSoonHeading {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand);
+  letter-spacing: -0.02em;
+}
+
+.comingSoonText {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-base);
+}
+
+.comingSoonBtn {
+  display: inline-block;
+  margin-top: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-8);
+  background-color: var(--color-accent);
+  color: var(--color-text-inverse);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-fast);
+}
+
+.comingSoonBtn:hover {
+  background-color: var(--color-accent-light);
+}
+
+/* ── Booking page (active when BOOKING_ENABLED = true) ── */
+
 .page {
   padding-block: var(--spacing-16);
 }
