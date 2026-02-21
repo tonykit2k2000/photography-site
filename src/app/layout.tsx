@@ -44,9 +44,9 @@ const jsonLd = {
   },
   priceRange: "$$",
   sameAs: [
-    "https://www.instagram.com/TODO", // TODO: update with your Instagram URL
-    "https://www.facebook.com/TODO", // TODO: update with your Facebook URL
-    "https://www.linkedin.com/in/TODO", // TODO: update with your LinkedIn URL
+    "https://www.instagram.com/kittivanichkulkraitony",
+    "https://www.facebook.com/tony.kitt.3",
+    "https://www.linkedin.com/in/tony-kittivanichkulkrai-7a63882b4",
   ],
 };
 
