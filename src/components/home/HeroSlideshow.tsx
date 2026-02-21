@@ -50,13 +50,27 @@ export function HeroSlideshow({
           className={`${styles.slide} ${index === current ? styles.active : ""}`}
           aria-hidden={index !== current}
         >
+          {/* Blurred background layer — fills space for portrait images */}
+          <Image
+            src={slide.src}
+            alt=""
+            fill
+            aria-hidden="true"
+            sizes="100vw"
+            style={{
+              objectFit: "cover",
+              filter: "blur(20px) brightness(0.35)",
+              transform: "scale(1.15)",
+            }}
+          />
+          {/* Main image — shown in full without cropping */}
           <Image
             src={slide.src}
             alt={slide.alt}
             fill
             priority={index === 0}
             sizes="100vw"
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: "contain" }}
           />
         </div>
       ))}
