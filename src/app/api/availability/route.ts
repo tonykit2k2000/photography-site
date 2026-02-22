@@ -7,6 +7,8 @@ const DAY_END_HOUR = 18;           // last slot starts at 6:00 PM (ends 7:00 PM)
 const SLOT_INTERVAL_MINUTES = 30;
 const SESSION_DURATION_MINUTES = 60;
 
+const PHOTOGRAPHER_TIMEZONE = process.env.PHOTOGRAPHER_TIMEZONE ?? "America/Chicago";
+
 function formatSlotKey(hour: number, minute: number): string {
   return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
 }
@@ -20,6 +22,36 @@ function overlaps(
   return busyStart < slotEnd && busyEnd > slotStart;
 }
 
+/**
+ * Convert a naive local time (YYYY-MM-DD + HH:MM) in the photographer's
+ * timezone to a proper UTC Date. Correctly handles DST transitions.
+ */
+function makeSlotDate(dateStr: string, hour: number, minute: number): Date {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  // Treat the naive datetime as UTC first
+  const epoch0 = Date.UTC(y!, m! - 1, d!, hour, minute, 0);
+  const d0 = new Date(epoch0);
+  // Find what epoch0 (as UTC) looks like in the photographer's timezone
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: PHOTOGRAPHER_TIMEZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  }).formatToParts(d0);
+  const p: Record<string, number> = {};
+  for (const part of parts) {
+    if (part.type !== "literal") p[part.type] = parseInt(part.value, 10);
+  }
+  // Reconstruct what epoch0 looks like in TZ, as if it were UTC
+  const tzEpoch = Date.UTC(p.year!, p.month! - 1, p.day!, p.hour!, p.minute!, p.second!);
+  // Offset = epoch0 - tzEpoch; apply to get the correct UTC instant
+  return new Date(epoch0 + (epoch0 - tzEpoch));
+}
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const dateStr = searchParams.get("date");
@@ -28,10 +60,14 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Invalid date parameter" }, { status: 400 });
   }
 
-  const requestedDay = new Date(`${dateStr}T00:00:00`);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  if (requestedDay < today) {
+  // Compare dates as strings in the photographer's timezone (YYYY-MM-DD)
+  const todayInTZ = new Intl.DateTimeFormat("en-CA", {
+    timeZone: PHOTOGRAPHER_TIMEZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+  if (dateStr < todayInTZ) {
     return NextResponse.json({ error: "Date is in the past" }, { status: 400 });
   }
 
@@ -59,7 +95,8 @@ export async function GET(request: NextRequest) {
         DAY_END_HOUR * 60 - SESSION_DURATION_MINUTES + SLOT_INTERVAL_MINUTES;
       if (slotStartMinutes >= lastValidStartMinutes) continue;
 
-      const slotStart = new Date(`${dateStr}T${formatSlotKey(hour, min)}:00`);
+      // Build slot times in the photographer's timezone
+      const slotStart = makeSlotDate(dateStr, hour, min);
       const slotEnd = new Date(
         slotStart.getTime() + SESSION_DURATION_MINUTES * 60 * 1000
       );
