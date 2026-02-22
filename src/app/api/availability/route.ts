@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getBusySlots } from "@/lib/google-calendar";
+import {
+  getAvailableAppointmentSlots,
+  getBusySlots,
+} from "@/lib/google-calendar";
 
-// Working hours and slot configuration — adjust as needed
-const DAY_START_HOUR = 8;          // 8:00 AM
-const DAY_END_HOUR = 18;           // last slot starts at 6:00 PM (ends 7:00 PM)
+// Fallback working hours used only when no Google Calendar appointment schedule is found
+const FALLBACK_DAY_START_HOUR = 8;
+const FALLBACK_DAY_END_HOUR = 18;
 const SLOT_INTERVAL_MINUTES = 30;
 const SESSION_DURATION_MINUTES = 60;
 
@@ -28,10 +31,8 @@ function overlaps(
  */
 function makeSlotDate(dateStr: string, hour: number, minute: number): Date {
   const [y, m, d] = dateStr.split("-").map(Number);
-  // Treat the naive datetime as UTC first
   const epoch0 = Date.UTC(y!, m! - 1, d!, hour, minute, 0);
   const d0 = new Date(epoch0);
-  // Find what epoch0 (as UTC) looks like in the photographer's timezone
   const parts = new Intl.DateTimeFormat("en-US", {
     timeZone: PHOTOGRAPHER_TIMEZONE,
     year: "numeric",
@@ -46,10 +47,23 @@ function makeSlotDate(dateStr: string, hour: number, minute: number): Date {
   for (const part of parts) {
     if (part.type !== "literal") p[part.type] = parseInt(part.value, 10);
   }
-  // Reconstruct what epoch0 looks like in TZ, as if it were UTC
   const tzEpoch = Date.UTC(p.year!, p.month! - 1, p.day!, p.hour!, p.minute!, p.second!);
-  // Offset = epoch0 - tzEpoch; apply to get the correct UTC instant
   return new Date(epoch0 + (epoch0 - tzEpoch));
+}
+
+/**
+ * Format a UTC Date as "HH:MM" in the photographer's timezone.
+ */
+function toSlotKey(date: Date): string {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: PHOTOGRAPHER_TIMEZONE,
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).formatToParts(date);
+  const hour = parts.find((p) => p.type === "hour")?.value ?? "00";
+  const minute = parts.find((p) => p.type === "minute")?.value ?? "00";
+  return `${hour}:${minute}`;
 }
 
 export async function GET(request: NextRequest) {
@@ -76,35 +90,48 @@ export async function GET(request: NextRequest) {
   const nextDay = new Date(queryStart);
   nextDay.setUTCDate(nextDay.getUTCDate() + 1);
 
+  const now = new Date();
+
+  // --- Primary: use Google Calendar Appointment Schedule slots ---
+  try {
+    const appointmentSlots = await getAvailableAppointmentSlots(queryStart, nextDay);
+
+    if (appointmentSlots.length > 0) {
+      const availableSlots = appointmentSlots
+        .map((slot) => ({ date: new Date(slot.start), key: toSlotKey(new Date(slot.start)) }))
+        .filter(({ date }) => date > now)
+        .map(({ key }) => key);
+
+      return NextResponse.json({ availableSlots });
+    }
+  } catch (err) {
+    console.error("getAvailableAppointmentSlots failed, falling back:", err);
+  }
+
+  // --- Fallback: freebusy query + hardcoded working hours ---
   let busySlots: Array<{ start: string; end: string }> = [];
   try {
     busySlots = await getBusySlots(queryStart, nextDay);
   } catch (err) {
-    // If Google Calendar is unavailable, return all slots unfiltered
     console.error("getBusySlots failed, returning all slots:", err);
   }
 
-  const now = new Date();
   const availableSlots: string[] = [];
 
-  for (let hour = DAY_START_HOUR; hour <= DAY_END_HOUR; hour++) {
+  for (let hour = FALLBACK_DAY_START_HOUR; hour <= FALLBACK_DAY_END_HOUR; hour++) {
     for (let min = 0; min < 60; min += SLOT_INTERVAL_MINUTES) {
-      // Ensure the slot start + session duration doesn't exceed the day end
       const slotStartMinutes = hour * 60 + min;
       const lastValidStartMinutes =
-        DAY_END_HOUR * 60 - SESSION_DURATION_MINUTES + SLOT_INTERVAL_MINUTES;
+        FALLBACK_DAY_END_HOUR * 60 - SESSION_DURATION_MINUTES + SLOT_INTERVAL_MINUTES;
       if (slotStartMinutes >= lastValidStartMinutes) continue;
 
-      // Build slot times in the photographer's timezone
       const slotStart = makeSlotDate(dateStr, hour, min);
       const slotEnd = new Date(
         slotStart.getTime() + SESSION_DURATION_MINUTES * 60 * 1000
       );
 
-      // Skip slots already in the past (relevant when dateStr is today)
       if (slotStart <= now) continue;
 
-      // Skip if any busy period overlaps this slot
       const isBusy = busySlots.some((busy) => {
         const busyStart = new Date(busy.start);
         const busyEnd = new Date(busy.end);
