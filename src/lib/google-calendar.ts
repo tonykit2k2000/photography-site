@@ -100,34 +100,6 @@ export async function deleteBookingEvent(eventId: string): Promise<void> {
 }
 
 /**
- * Get available appointment slots from the Google Calendar Appointment Schedule.
- * Returns slots as UTC ISO strings so callers can convert to any timezone.
- * Only returns slots that haven't been booked yet.
- */
-export async function getAvailableAppointmentSlots(
-  start: Date,
-  end: Date
-): Promise<Array<{ start: string; end: string }>> {
-  const calendar = getCalendar();
-  const response = await calendar.events.list({
-    calendarId: CALENDAR_ID,
-    timeMin: start.toISOString(),
-    timeMax: end.toISOString(),
-    // appointmentSlot events = available (unbooked) slots on the appointment schedule
-    eventTypes: ["appointmentSlot"] as string[],
-    singleEvents: true,
-    orderBy: "startTime",
-  });
-
-  return (response.data.items ?? [])
-    .filter((e) => e.start?.dateTime && e.end?.dateTime)
-    .map((e) => ({
-      start: e.start!.dateTime!,
-      end: e.end!.dateTime!,
-    }));
-}
-
-/**
  * Get busy time slots for a given date range to show available booking times.
  */
 export async function getBusySlots(
