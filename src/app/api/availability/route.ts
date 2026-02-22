@@ -20,7 +20,7 @@ const WORKING_HOURS: (null | { start: number; end: number })[] = [
   { start: 16, end: 21 },  // 3 Wednesday  4:00 PM – 9:00 PM
   { start: 16, end: 21 },  // 4 Thursday   4:00 PM – 9:00 PM
   { start: 16, end: 21 },  // 5 Friday     4:00 PM – 9:00 PM
-  null,                    // 6 Saturday   unavailable (update if you work Saturdays)
+  { start: 6,  end: 21 },  // 6 Saturday   6:00 AM – 9:00 PM (last slot 8:00 PM)
 ];
 
 function formatSlotKey(hour: number, minute: number): string {
