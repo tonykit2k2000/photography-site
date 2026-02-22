@@ -13,7 +13,7 @@ const navLinks = [
     submenu: portfolioCategories
       .filter((category) => category.value !== "all")
       .map((category) => ({
-        href: `/portfolio?category=${category.value}`,
+        href: `/portfolio/${category.value}`,
         label: category.label,
       })),
   },

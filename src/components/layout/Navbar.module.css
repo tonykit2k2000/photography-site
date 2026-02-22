@@ -102,7 +102,7 @@
 
 .dropdown {
   position: absolute;
-  top: calc(100% + 0.5rem);
+  top: 100%;
   left: 0;
   display: grid;
   min-width: 11rem;

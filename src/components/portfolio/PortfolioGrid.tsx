@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 import type { PortfolioImage } from "@/config/portfolio-images";
 import styles from "./PortfolioGrid.module.css";
 
@@ -21,8 +22,17 @@ export function PortfolioGrid({
   categories,
   initialCategory = "all",
 }: PortfolioGridProps) {
-  const [activeCategory, setActiveCategory] = useState<string>(initialCategory);
+  const router = useRouter();
+  const pathname = usePathname();
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  const activeCategory = initialCategory;
+
+  const handleCategoryChange = (category: string) => {
+    const nextPath = category === "all" ? "/portfolio" : `/portfolio/${category}`;
+    if (nextPath === pathname) return;
+    router.push(nextPath, { scroll: false });
+  };
 
   const filtered =
     activeCategory === "all"
@@ -50,7 +60,7 @@ export function PortfolioGrid({
           <button
             key={cat.value}
             className={`${styles.filterBtn} ${activeCategory === cat.value ? styles.filterBtnActive : ""}`}
-            onClick={() => setActiveCategory(cat.value)}
+            onClick={() => handleCategoryChange(cat.value)}
             aria-pressed={activeCategory === cat.value}
           >
             {cat.label}

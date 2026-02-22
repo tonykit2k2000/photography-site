@@ -10,20 +10,7 @@ export const metadata: Metadata = {
     "Browse my photography portfolio — portraits, weddings, families, and more.",
 };
 
-interface PortfolioPageProps {
-  searchParams?: {
-    category?: string;
-  };
-}
-
-export default function PortfolioPage({ searchParams }: PortfolioPageProps) {
-  const categoryParam = searchParams?.category ?? "all";
-  const initialCategory = portfolioCategories.some(
-    (category) => category.value === categoryParam
-  )
-    ? categoryParam
-    : "all";
-
+export default function PortfolioPage() {
   return (
     <div className={styles.page}>
       <div className="container">
@@ -36,7 +23,7 @@ export default function PortfolioPage({ searchParams }: PortfolioPageProps) {
         <PortfolioGrid
           images={portfolioImages}
           categories={portfolioCategories}
-          initialCategory={initialCategory}
+          initialCategory="all"
         />
       </div>
     </div>
