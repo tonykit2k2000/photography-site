@@ -3,7 +3,7 @@ import { z } from "zod";
 import { db } from "@/db";
 import { customers, sessions, galleries } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { createBookingEvent } from "@/lib/google-calendar";
+import { createBookingEvent, getBusySlots } from "@/lib/google-calendar";
 import { sendBookingConfirmation } from "@/lib/email";
 import { generateAccessToken, hashPin } from "@/lib/gallery-auth";
 
@@ -43,6 +43,25 @@ export async function POST(request: NextRequest) {
       { error: "Invalid or past date/time" },
       { status: 422 }
     );
+  }
+
+  // Conflict check — reject if the time slot is already booked on Google Calendar
+  try {
+    const sessionEnd = new Date(scheduledAt.getTime() + 60 * 60 * 1000);
+    const busySlots = await getBusySlots(scheduledAt, sessionEnd);
+    const conflict = busySlots.some((slot) => {
+      const bStart = new Date(slot.start);
+      const bEnd = new Date(slot.end);
+      return bStart < sessionEnd && bEnd > scheduledAt;
+    });
+    if (conflict) {
+      return NextResponse.json(
+        { error: "That time slot is no longer available. Please choose another time." },
+        { status: 409 }
+      );
+    }
+  } catch {
+    // If Google Calendar is unreachable, allow booking to proceed
   }
 
   try {

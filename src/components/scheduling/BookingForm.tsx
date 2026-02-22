@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { sessionTypes, sessionPricing } from "@/config/portfolio-images";
 import styles from "./BookingForm.module.css";
 import { PaymentStep } from "@/components/payments/PaymentStep";
@@ -31,6 +31,15 @@ const initialForm: FormData = {
   notes: "",
 };
 
+function formatSlot(time: string): string {
+  const [hStr, mStr] = time.split(":");
+  const h = parseInt(hStr ?? "0", 10);
+  const m = parseInt(mStr ?? "0", 10);
+  const period = h >= 12 ? "PM" : "AM";
+  const hour = h % 12 || 12;
+  return `${hour}:${String(m).padStart(2, "0")} ${period}`;
+}
+
 export function BookingForm() {
   const [step, setStep] = useState<Step>("details");
   const [formData, setFormData] = useState<FormData>(initialForm);
@@ -39,14 +48,45 @@ export function BookingForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [availableSlots, setAvailableSlots] = useState<string[]>([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
+  const [noSlots, setNoSlots] = useState(false);
+
   const selectedPricing =
     formData.sessionType in sessionPricing
       ? sessionPricing[formData.sessionType as keyof typeof sessionPricing] ?? 0
       : 0;
 
+  useEffect(() => {
+    if (!formData.preferredDate) {
+      setAvailableSlots([]);
+      setNoSlots(false);
+      return;
+    }
+    setLoadingSlots(true);
+    setNoSlots(false);
+    setFormData((prev) => ({ ...prev, preferredTime: "" }));
+
+    fetch(`/api/availability?date=${formData.preferredDate}`)
+      .then((r) => r.json())
+      .then((data: { availableSlots?: string[] }) => {
+        const slots = data.availableSlots ?? [];
+        setAvailableSlots(slots);
+        setNoSlots(slots.length === 0);
+      })
+      .catch(() => setAvailableSlots([]))
+      .finally(() => setLoadingSlots(false));
+  }, [formData.preferredDate]);
+
   async function handleDetailsSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+
+    if (availableSlots.length > 0 && !formData.preferredTime) {
+      setError("Please select a time slot.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -215,34 +255,52 @@ export function BookingForm() {
         )}
       </div>
 
-      <div className={styles.row}>
-        <div className={styles.field}>
-          <label htmlFor="preferredDate" className={styles.label}>
-            Preferred Date <span aria-hidden="true">*</span>
-          </label>
-          <input
-            id="preferredDate"
-            type="date"
-            className={styles.input}
-            value={formData.preferredDate}
-            onChange={(e) => handleField("preferredDate", e.target.value)}
-            required
-            min={new Date().toISOString().split("T")[0]}
-          />
-        </div>
-        <div className={styles.field}>
-          <label htmlFor="preferredTime" className={styles.label}>
-            Preferred Time <span aria-hidden="true">*</span>
-          </label>
-          <input
-            id="preferredTime"
-            type="time"
-            className={styles.input}
-            value={formData.preferredTime}
-            onChange={(e) => handleField("preferredTime", e.target.value)}
-            required
-          />
-        </div>
+      <div className={styles.field}>
+        <label htmlFor="preferredDate" className={styles.label}>
+          Preferred Date <span aria-hidden="true">*</span>
+        </label>
+        <input
+          id="preferredDate"
+          type="date"
+          className={styles.input}
+          value={formData.preferredDate}
+          onChange={(e) => handleField("preferredDate", e.target.value)}
+          required
+          min={new Date().toISOString().split("T")[0]}
+        />
+      </div>
+
+      <div className={styles.field}>
+        <label className={styles.label}>
+          Preferred Time <span aria-hidden="true">*</span>
+        </label>
+        {!formData.preferredDate && (
+          <p className={styles.slotHint}>Select a date to see available times.</p>
+        )}
+        {loadingSlots && (
+          <p className={styles.slotHint}>Checking availability…</p>
+        )}
+        {noSlots && !loadingSlots && (
+          <p className={styles.slotHint}>
+            No availability on this date. Please choose another day.
+          </p>
+        )}
+        {availableSlots.length > 0 && !loadingSlots && (
+          <div className={styles.slotGrid} role="group" aria-label="Available time slots">
+            {availableSlots.map((slot) => (
+              <button
+                key={slot}
+                type="button"
+                className={`${styles.slotBtn} ${
+                  formData.preferredTime === slot ? styles.slotBtnActive : ""
+                }`}
+                onClick={() => handleField("preferredTime", slot)}
+              >
+                {formatSlot(slot)}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className={styles.field}>
