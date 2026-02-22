@@ -16,6 +16,7 @@ const categories = [
   { value: "family", label: "Families" },
   { value: "headshot", label: "Headshots" },
   { value: "event", label: "Events" },
+  { value: "landscape", label: "Landscapes" },
 ] as const;
 
 export default function PortfolioPage() {
