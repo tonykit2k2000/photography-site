@@ -6,15 +6,16 @@ import { PortfolioGrid } from "@/components/portfolio/PortfolioGrid";
 import styles from "../page.module.css";
 
 interface PortfolioCategoryPageProps {
-  params: {
+  params: Promise<{
     category: string;
-  };
+  }>;
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
-}: PortfolioCategoryPageProps): Metadata {
-  const category = portfolioCategories.find((item) => item.value === params.category);
+}: PortfolioCategoryPageProps): Promise<Metadata> {
+  const { category: categoryParam } = await params;
+  const category = portfolioCategories.find((item) => item.value === categoryParam);
 
   if (!category || category.value === "all") {
     return {
@@ -28,10 +29,11 @@ export function generateMetadata({
   };
 }
 
-export default function PortfolioCategoryPage({
+export default async function PortfolioCategoryPage({
   params,
 }: PortfolioCategoryPageProps) {
-  const category = portfolioCategories.find((item) => item.value === params.category);
+  const { category: categoryParam } = await params;
+  const category = portfolioCategories.find((item) => item.value === categoryParam);
 
   if (!category || category.value === "all") {
     notFound();
