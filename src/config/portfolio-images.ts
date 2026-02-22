@@ -17,7 +17,7 @@ export interface SlideImage {
 export interface PortfolioImage {
   src: string;
   alt: string;
-  category: "portrait" | "wedding" | "family" | "headshot" | "event" | "other";
+  category: "portrait" | "wedding" | "family" | "headshot" | "event" | "landscape" | "other";
   aspectRatio: number; // width / height, e.g. 1.5 for landscape 3:2
 }
 
@@ -106,22 +106,22 @@ export const heroSlides: SlideImage[] = [
  */
 export const portfolioImages: PortfolioImage[] = [
   {
-    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-4.jpg",
-    alt: "Prom portrait",
-    category: "portrait",
-    aspectRatio: 0.75,   // tall portrait (3:4)
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-2.jpg",
+    alt: "Baby",
+    category: "family",
+    aspectRatio: 1.5,   // landscape (4:3)
   },
   {
-    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-5.jpg",
-    alt: "Wedding ceremony moment",
-    category: "wedding",
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-3.jpg",
+    alt: "Landscape",
+    category: "landscape",
     aspectRatio: 1.5,    // wide landscape (3:2)
   },
   {
     src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-9.jpg",
-    alt: "Covered bridge",
-    category: "portrait",
-    aspectRatio: 1.33,   // landscape (4:3)
+    alt: "Headshot",
+    category: "headshot",
+    aspectRatio: .75,   // landscape (4:3)
   },
   // keep adding more entries...
 ];
@@ -138,6 +138,7 @@ export const sessionTypes = [
   { value: "event", label: "Event Photography" },
   { value: "newborn", label: "Newborn Session" },
   { value: "engagement", label: "Engagement Session" },
+  { value: "landscape", label: "Landscapes" },
 ] as const;
 
 /**
