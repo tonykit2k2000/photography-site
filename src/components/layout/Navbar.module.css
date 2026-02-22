@@ -73,6 +73,10 @@
   list-style: none;
 }
 
+.navItem {
+  position: relative;
+}
+
 .link {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
@@ -96,9 +100,53 @@
   color: white;
 }
 
+.dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  display: grid;
+  min-width: 11rem;
+  list-style: none;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition:
+    opacity var(--transition-fast),
+    transform var(--transition-fast),
+    visibility var(--transition-fast);
+}
+
+.navItem:hover .dropdown,
+.navItem:focus-within .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.dropdownLink {
+  display: block;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-2) var(--spacing-3);
+  white-space: nowrap;
+}
+
+.dropdownLink:hover {
+  color: var(--color-brand);
+  background-color: rgb(0 0 0 / 0.04);
+}
+
 /* Last link styled as a CTA button — same in both states */
-.links li:last-child .link,
-.links li:last-child .linkLight {
+.links > li:last-child .link,
+.links > li:last-child .linkLight {
   color: var(--color-surface);
   background-color: var(--color-accent);
   padding: var(--spacing-2) var(--spacing-4);
@@ -106,8 +154,8 @@
   text-shadow: none;
 }
 
-.links li:last-child .link:hover,
-.links li:last-child .linkLight:hover {
+.links > li:last-child .link:hover,
+.links > li:last-child .linkLight:hover {
   background-color: var(--color-accent-light);
   color: var(--color-brand);
 }
@@ -119,6 +167,10 @@
 
   .link,
   .linkLight {
+    font-size: var(--font-size-xs);
+  }
+
+  .dropdownLink {
     font-size: var(--font-size-xs);
   }
 }

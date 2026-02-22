@@ -13,10 +13,15 @@ interface Category {
 interface PortfolioGridProps {
   images: PortfolioImage[];
   categories: readonly Category[];
+  initialCategory?: string;
 }
 
-export function PortfolioGrid({ images, categories }: PortfolioGridProps) {
-  const [activeCategory, setActiveCategory] = useState<string>("all");
+export function PortfolioGrid({
+  images,
+  categories,
+  initialCategory = "all",
+}: PortfolioGridProps) {
+  const [activeCategory, setActiveCategory] = useState<string>(initialCategory);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const filtered =
