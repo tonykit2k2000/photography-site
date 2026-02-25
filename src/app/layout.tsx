@@ -28,9 +28,7 @@ export const metadata: Metadata = {
     url: "https://www.tonykittphotography.com",
     images: [
       {
-        url: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-1.jpg",
-        width: 1200,
-        height: 800,
+        url: "https://www.tonykittphotography.com/headshot.jpg",
         alt: "Tony Kitt Photography",
       },
     ],
