@@ -2,11 +2,11 @@ import type { NextConfig } from "next";
 
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline' https://js.stripe.com;
+  script-src 'self' 'unsafe-inline' https://js.stripe.com https://www.linkedin.com https://snap.licdn.com https://connect.facebook.net https://www.facebook.com;
   style-src 'self' 'unsafe-inline';
-  img-src 'self' data: blob: https://*.cloudfront.net;
-  font-src 'self';
-  connect-src 'self' https://api.stripe.com https://*.s3.us-east-2.amazonaws.com;
+  img-src 'self' data: blob: https://*.cloudfront.net https://*.licdn.com https://www.facebook.com https://www.linkedin.com https://static.licdn.com;
+  font-src 'self' data:;
+  connect-src 'self' https://api.stripe.com https://*.s3.us-east-2.amazonaws.com https://www.linkedin.com https://px.ads.linkedin.com https://www.facebook.com https://connect.facebook.net;
   frame-src https://js.stripe.com https://hooks.stripe.com;
   object-src 'none';
   base-uri 'self';
@@ -16,7 +16,6 @@ const ContentSecurityPolicy = `
 const securityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "on" },
   { key: "X-XSS-Protection", value: "1; mode=block" },
-  { key: "X-Frame-Options", value: "SAMEORIGIN" },
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
@@ -38,6 +37,14 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
+      {
+        source: "/admin/:path*",
+        headers: [{ key: "X-Frame-Options", value: "DENY" }],
+      },
+      {
+        source: "/gallery/:path*",
+        headers: [{ key: "X-Frame-Options", value: "DENY" }],
+      },
       {
         source: "/(.*)",
         headers: securityHeaders,
