@@ -1,7 +1,39 @@
 import type { ReactNode } from "react";
-import { HeroSlideshow } from "@/components/home/HeroSlideshow";
+import dynamic from "next/dynamic";
 import { heroSlides } from "@/config/portfolio-images";
 import styles from "./page.module.css";
+
+function HeroFallback() {
+  return (
+    <div className={styles.heroFallback}>
+      <p className={styles.heroFallbackEyebrow}>Professional Photography</p>
+      <div className={styles.heroFallbackDivider} />
+      <h1 className={styles.heroFallbackHeadline}>
+        Capturing Life&apos;s Moments
+      </h1>
+      <p className={styles.heroFallbackTagline}>
+        Professional photography for portraits, weddings, and milestones
+      </p>
+      <div className={styles.heroFallbackCtas}>
+        <a href="/schedule" className={styles.heroFallbackCtaPrimary}>
+          Book a Session
+        </a>
+        <a href="/portfolio" className={styles.heroFallbackCtaSecondary}>
+          View Portfolio
+        </a>
+      </div>
+    </div>
+  );
+}
+
+const HeroSlideshow = dynamic(
+  () =>
+    import("@/components/home/HeroSlideshow").then((m) => m.HeroSlideshow),
+  {
+    ssr: false,
+    loading: () => <HeroFallback />,
+  }
+);
 
 export default function HomePage() {
   return (
