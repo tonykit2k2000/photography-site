@@ -25,7 +25,15 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: "Tony Kitt Photography",
-    url: "https://tonykittphotography.com",
+    url: "https://www.tonykittphotography.com",
+    images: [
+      {
+        url: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-1.jpg",
+        width: 1200,
+        height: 800,
+        alt: "Tony Kitt Photography",
+      },
+    ],
   },
 };
 
@@ -35,7 +43,7 @@ const jsonLd = {
   name: "Tony Kitt Photography",
   description:
     "Professional photography for portraits, weddings, families, headshots, and milestones in Central Illinois.",
-  url: "https://tonykittphotography.com",
+  url: "https://www.tonykittphotography.com",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Central Illinois",

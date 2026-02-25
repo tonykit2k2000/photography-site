@@ -2,11 +2,11 @@ import type { NextConfig } from "next";
 
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline' https://js.stripe.com https://www.linkedin.com https://snap.licdn.com https://connect.facebook.net https://www.facebook.com;
+  script-src 'self' 'unsafe-inline' https://js.stripe.com https://www.linkedin.com https://snap.licdn.com https://connect.facebook.net https://www.facebook.com https://*.fbcdn.net;
   style-src 'self' 'unsafe-inline';
-  img-src 'self' data: blob: https://*.cloudfront.net https://*.licdn.com https://www.facebook.com https://www.linkedin.com https://static.licdn.com;
+  img-src 'self' data: blob: https://*.cloudfront.net https://*.licdn.com https://*.facebook.com https://*.fbcdn.net https://www.linkedin.com https://static.licdn.com;
   font-src 'self' data:;
-  connect-src 'self' https://api.stripe.com https://*.s3.us-east-2.amazonaws.com https://www.linkedin.com https://px.ads.linkedin.com https://www.facebook.com https://connect.facebook.net;
+  connect-src 'self' https://api.stripe.com https://*.s3.us-east-2.amazonaws.com https://www.linkedin.com https://px.ads.linkedin.com https://*.facebook.com https://connect.facebook.net https://*.fbcdn.net;
   frame-src https://js.stripe.com https://hooks.stripe.com;
   object-src 'none';
   base-uri 'self';
@@ -34,6 +34,16 @@ const nextConfig: NextConfig = {
         hostname: "*.cloudfront.net",
       },
     ],
+  },
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "tonykittphotography.com" }],
+        destination: "https://www.tonykittphotography.com/:path*",
+        permanent: true,
+      },
+    ];
   },
   async headers() {
     return [
