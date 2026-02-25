@@ -106,6 +106,12 @@ export const heroSlides: SlideImage[] = [
  */
 export const portfolioImages: PortfolioImage[] = [
   {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-1.jpg",
+    alt: "Senior",
+    category: "portrait",
+    aspectRatio: 1.5,   // landscape (4:3)
+  },
+  {
     src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-2.jpg",
     alt: "Baby",
     category: "family",
@@ -118,11 +124,95 @@ export const portfolioImages: PortfolioImage[] = [
     aspectRatio: 1.5,    // wide landscape (3:2)
   },
   {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-4.jpg",
+    alt: "Couple",
+    category: "portrait",
+    aspectRatio: 1.5,    // wide landscape (3:2)
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-5.jpg",
+    alt: "Couple",
+    category: "wedding",
+    aspectRatio: 1.5,    // wide landscape (3:2)
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-6.jpg",
+    alt: "Senior",
+    category: "portrait",
+    aspectRatio: .75,    // wide landscape (3:2)
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-7.jpg",
+    alt: "Landscape",
+    category: "landscape",
+    aspectRatio: 1.5,    // wide landscape (3:2)
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-8.jpg",
+    alt: "Senior",
+    category: "portrait",
+    aspectRatio: .75,    // wide landscape (3:2)
+  },
+  {
     src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-9.jpg",
     alt: "Headshot",
     category: "headshot",
     aspectRatio: .75,   // landscape (4:3)
   },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-10.jpg",
+    alt: "Senior",
+    category: "portrait",
+    aspectRatio: .75,   // landscape (4:3)
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-11.jpg",
+    alt: "Couple",
+    category: "portrait",
+    aspectRatio: 1.5,    // wide landscape (3:2)
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-12.jpg",
+    alt: "Landscape",
+    category: "landscape",
+    aspectRatio: 1.5,    // wide landscape (3:2)
+  },  
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-12b.jpg",
+    alt: "Bridge",
+    category: "portrait",
+    aspectRatio: .75,   // landscape (4:3)
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-14.jpg",
+    alt: "Couple",
+    category: "portrait",
+    aspectRatio: .75,   // landscape (4:3)
+  },
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-15.jpg",
+    alt: "Portrait",
+    category: "portrait",
+    aspectRatio: 1.5,    // wide landscape (3:2)
+  },   
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-16.jpg",
+    alt: "Portrait",
+    category: "family",
+    aspectRatio: 1.5,    // wide landscape (3:2)
+  },   
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-17.jpg",
+    alt: "Portrait",
+    category: "portrait",
+    aspectRatio: .75,   // landscape (4:3)
+  },  
+  {
+    src: "https://d3ljpz8qm1zyne.cloudfront.net/portfolio/hero-18.jpg",
+    alt: "Portrait",
+    category: "family",
+    aspectRatio: 1.5,    // wide landscape (3:2)
+  },   
   // keep adding more entries...
 ];
 
