@@ -28,28 +28,44 @@
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--spacing-3);
+  columns: 3;
+  column-gap: var(--spacing-3);
 }
 
 .gridItem {
-  position: relative;
   overflow: hidden;
   border-radius: var(--radius-md);
   border: none;
-  background: var(--color-surface-muted);
+  background: transparent;
   cursor: pointer;
   display: block;
   width: 100%;
+  padding: 0;
+  break-inside: avoid;
+  margin-bottom: var(--spacing-3);
 }
 
 .gridImage {
+  width: 100%;
+  height: auto;
+  display: block;
   transition: transform var(--transition-slow);
 }
 
 .gridItem:hover .gridImage {
   transform: scale(1.03);
+}
+
+@media (max-width: 900px) {
+  .grid {
+    columns: 2;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    columns: 1;
+  }
 }
 
 .emptyState {

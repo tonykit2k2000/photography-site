@@ -76,16 +76,14 @@ export function PortfolioGrid({
             className={styles.gridItem}
             onClick={() => openLightbox(index)}
             aria-label={`View ${image.alt}`}
-            style={{
-              aspectRatio: String(image.aspectRatio),
-            }}
           >
             <Image
               src={image.src}
               alt={image.alt}
-              fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              style={{ objectFit: "cover" }}
+              width={800}
+              height={Math.round(800 / image.aspectRatio)}
+              sizes="(max-width: 480px) 100vw, (max-width: 900px) 50vw, 33vw"
+              style={{ width: "100%", height: "auto" }}
               className={styles.gridImage}
             />
           </button>
@@ -120,6 +118,7 @@ export function PortfolioGrid({
               priority
             />
             <button
+              type="button"
               className={styles.lightboxClose}
               onClick={closeLightbox}
               aria-label="Close"
@@ -127,6 +126,7 @@ export function PortfolioGrid({
               &times;
             </button>
             <button
+              type="button"
               className={`${styles.lightboxArrow} ${styles.lightboxArrowLeft}`}
               onClick={lightboxPrev}
               aria-label="Previous photo"
@@ -134,6 +134,7 @@ export function PortfolioGrid({
               &#8249;
             </button>
             <button
+              type="button"
               className={`${styles.lightboxArrow} ${styles.lightboxArrowRight}`}
               onClick={lightboxNext}
               aria-label="Next photo"
