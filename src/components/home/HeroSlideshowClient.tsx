@@ -1,6 +1,7 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { useState, useEffect } from "react";
+import { HeroSlideshow } from "./HeroSlideshow";
 import type { SlideImage } from "@/config/portfolio-images";
 import styles from "./HeroSlideshowClient.module.css";
 
@@ -25,18 +26,17 @@ function HeroFallback() {
   );
 }
 
-const HeroSlideshowDynamic = dynamic(
-  () => import("./HeroSlideshow").then((m) => m.HeroSlideshow),
-  {
-    ssr: false,
-    loading: () => <HeroFallback />,
-  }
-);
-
 interface Props {
   slides: SlideImage[];
 }
 
 export function HeroSlideshowClient({ slides }: Props) {
-  return <HeroSlideshowDynamic slides={slides} />;
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return <HeroFallback />;
+  return <HeroSlideshow slides={slides} />;
 }
