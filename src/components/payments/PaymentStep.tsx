@@ -10,12 +10,7 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import styles from "./PaymentStep.module.css";
 import { formatCents } from "./formatCents";
-
-// ── Payment mode ────────────────────────────────────────────────────────────
-// Set to true while testing. No real charges will be made.
-// Switch to false when you are ready to accept live payments.
-const PAYMENT_TEST_MODE = true;
-// ────────────────────────────────────────────────────────────────────────────
+import { PAYMENT_TEST_MODE } from "@/config/payments";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!

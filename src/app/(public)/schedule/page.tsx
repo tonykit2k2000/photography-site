@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { BookingForm } from "@/components/scheduling/BookingForm";
+import { PAYMENT_TEST_MODE } from "@/config/payments";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -56,6 +57,14 @@ export default function SchedulePage() {
   return (
     <div className={styles.page}>
       <div className="container">
+        {PAYMENT_TEST_MODE && (
+          <div className={styles.testModeBanner} role="alert">
+            <strong>Test mode</strong> — this page is in test status. Bookings
+            and payments are for testing purposes only and no real charges will
+            be made.
+          </div>
+        )}
+
         <header className={styles.header}>
           <h1 className={styles.heading}>Book a Session</h1>
           <p className={styles.subheading}>
