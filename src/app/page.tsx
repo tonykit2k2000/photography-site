@@ -6,29 +6,28 @@ import styles from "./page.module.css";
 export default function HomePage() {
   return (
     <>
-      <div className={styles.heroWrapper}>
-        <HeroSlideshowClient slides={heroSlides} />
-      </div>
-
-      <section className={styles.intro}>
-        <div className="container">
-          <h2 className={styles.introHeading}>
-            Every moment deserves to be remembered.
-          </h2>
-          <p className={styles.introText}>
+      <div className={styles.heroLayout}>
+        <div className={styles.heroSlideshowPane}>
+          <HeroSlideshowClient slides={heroSlides} />
+        </div>
+        <div className={styles.heroContentPane}>
+          <p className={styles.heroEyebrow}>Professional Photography</p>
+          <div className={styles.heroDivider} aria-hidden="true" />
+          <h1 className={styles.heroHeadline}>Capturing Life&apos;s Moments</h1>
+          <p className={styles.heroTagline}>
             Professional photography by Tony Kitt — portraits, weddings,
             families, and milestones captured beautifully.
           </p>
-          <div className={styles.introLinks}>
-            <a href="/portfolio" className={styles.btnOutline}>
-              View Portfolio
-            </a>
-            <a href="/schedule" className={styles.btnPrimary}>
+          <div className={styles.heroCtaGroup}>
+            <a href="/schedule" className={styles.heroCtaPrimary}>
               Book a Session
+            </a>
+            <a href="/portfolio" className={styles.heroCtaSecondary}>
+              View Portfolio
             </a>
           </div>
         </div>
-      </section>
+      </div>
 
       <section className={styles.services}>
         <div className="container">

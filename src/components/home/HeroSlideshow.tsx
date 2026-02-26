@@ -76,29 +76,6 @@ export function HeroSlideshow({
         </div>
       ))}
 
-      <div className={styles.overlay}>
-        <p className={styles.eyebrow}>Professional Photography</p>
-        <div className={styles.divider} aria-hidden="true" />
-        <h1 className={styles.headline}>Capturing Life&apos;s Moments</h1>
-        <p className={styles.tagline}>
-          Professional photography for portraits, weddings, and milestones
-        </p>
-        <div className={styles.ctaGroup}>
-          <a href="/schedule" className={styles.cta}>
-            Book a Session
-          </a>
-          <a href="/portfolio" className={styles.ctaSecondary}>
-            View Portfolio
-          </a>
-        </div>
-
-        <div className={styles.scrollIndicator} aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-            <path d="M6 9l6 6 6-6" />
-          </svg>
-        </div>
-      </div>
-
       {slides.length > 1 && (
         <>
           <button

@@ -1,67 +1,135 @@
-/* Pull the hero up so it starts behind the sticky transparent navbar */
-.heroWrapper {
+/* Pull the hero layout up so it starts behind the sticky transparent navbar */
+.heroLayout {
   margin-top: -4rem;
+  display: flex;
+  height: 90vh;
+  min-height: 500px;
 }
 
-.intro {
-  padding-block: var(--spacing-24);
+.heroSlideshowPane {
+  flex: 0 0 75%;
+  width: 75%;
+  position: relative;
+}
+
+.heroContentPane {
+  flex: 0 0 25%;
+  width: 25%;
+  background-color: var(--color-brand);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-10) var(--spacing-8);
   text-align: center;
 }
 
-.introHeading {
-  font-size: var(--font-size-4xl);
+.heroEyebrow {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-accent-light);
+}
+
+.heroDivider {
+  width: 48px;
+  height: 1px;
+  background-color: var(--color-accent);
+  margin-block: var(--spacing-4);
+  opacity: 0.8;
+}
+
+.heroHeadline {
+  font-size: clamp(1.5rem, 2vw, 2.5rem);
   font-weight: var(--font-weight-bold);
-  color: var(--color-brand);
+  color: var(--color-text-inverse);
   letter-spacing: -0.02em;
   line-height: var(--line-height-tight);
-  max-width: 600px;
-  margin-inline: auto;
 }
 
-.introText {
-  margin-top: var(--spacing-6);
-  font-size: var(--font-size-lg);
-  color: var(--color-text-muted);
-  max-width: 520px;
-  margin-inline: auto;
+.heroTagline {
+  margin-top: var(--spacing-4);
+  font-size: var(--font-size-sm);
+  color: rgb(255 255 255 / 0.8);
+  line-height: var(--line-height-base);
 }
 
-.introLinks {
-  margin-top: var(--spacing-10);
+.heroCtaGroup {
+  margin-top: var(--spacing-8);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: var(--spacing-4);
-  flex-wrap: wrap;
+  gap: var(--spacing-3);
+  width: 100%;
 }
 
-.btnPrimary {
+.heroCtaPrimary {
   display: inline-block;
-  padding: var(--spacing-3) var(--spacing-8);
+  width: 100%;
+  padding: var(--spacing-3) var(--spacing-6);
   background-color: var(--color-accent);
   color: var(--color-text-inverse);
   font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base);
   border-radius: var(--radius-sm);
-  transition: background-color var(--transition-fast);
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+  letter-spacing: 0.01em;
 }
 
-.btnPrimary:hover {
+.heroCtaPrimary:hover {
   background-color: var(--color-accent-light);
+  transform: translateY(-1px);
 }
 
-.btnOutline {
+.heroCtaSecondary {
   display: inline-block;
-  padding: var(--spacing-3) var(--spacing-8);
-  border: 1px solid var(--color-border);
-  color: var(--color-brand);
+  width: 100%;
+  padding: var(--spacing-3) var(--spacing-6);
+  border: 1px solid rgb(255 255 255 / 0.5);
+  color: var(--color-text-inverse);
   font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-base);
   border-radius: var(--radius-sm);
-  transition: border-color var(--transition-fast), color var(--transition-fast);
+  transition: border-color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
+  letter-spacing: 0.01em;
 }
 
-.btnOutline:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
+.heroCtaSecondary:hover {
+  border-color: white;
+  background-color: rgb(255 255 255 / 0.1);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .heroLayout {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .heroSlideshowPane {
+    flex: none;
+    width: 100%;
+    height: 60vh;
+    min-height: 380px;
+  }
+
+  .heroContentPane {
+    flex: none;
+    width: 100%;
+    padding: var(--spacing-10) var(--spacing-6);
+  }
+
+  .heroCtaGroup {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .heroCtaPrimary,
+  .heroCtaSecondary {
+    width: auto;
+  }
 }
 
 .services {
