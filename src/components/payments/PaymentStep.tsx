@@ -11,6 +11,12 @@ import { loadStripe } from "@stripe/stripe-js";
 import styles from "./PaymentStep.module.css";
 import { formatCents } from "./formatCents";
 
+// ── Payment mode ────────────────────────────────────────────────────────────
+// Set to true while testing. No real charges will be made.
+// Switch to false when you are ready to accept live payments.
+const PAYMENT_TEST_MODE = true;
+// ────────────────────────────────────────────────────────────────────────────
+
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 );
@@ -29,7 +35,7 @@ export function PaymentStep(props: PaymentStepProps) {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const depositAmountCents = Math.round(totalPriceCents * 0.3); // 30% deposit
+  const depositAmountCents = 2500; // $25 flat deposit
   const amountCents = depositOnly ? depositAmountCents : totalPriceCents;
   const paymentType = depositOnly ? "deposit" : "full";
 
@@ -56,6 +62,11 @@ export function PaymentStep(props: PaymentStepProps) {
 
   return (
     <div className={styles.wrapper}>
+      {PAYMENT_TEST_MODE && (
+        <div className={styles.testModeBanner} role="alert">
+          <strong>Test mode</strong> — this is a test environment. No real payment will be processed and you will not be charged.
+        </div>
+      )}
       <h2 className={styles.title}>Payment</h2>
       <p className={styles.subtitle}>{sessionType} session</p>
 
@@ -67,7 +78,7 @@ export function PaymentStep(props: PaymentStepProps) {
         >
           <span>Pay Deposit</span>
           <span className={styles.toggleAmount}>{formatCents(depositAmountCents)}</span>
-          <span className={styles.toggleHint}>30% now, rest before session</span>
+          <span className={styles.toggleHint}>$25 now, rest before session</span>
         </button>
         <button
           className={`${styles.toggleBtn} ${!depositOnly ? styles.toggleBtnActive : ""}`}

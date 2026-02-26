@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     "Schedule your photography session. Portrait, family, wedding, and headshot sessions available.",
 };
 
-const BOOKING_ENABLED = false;
+const BOOKING_ENABLED = true;
 
 export default function SchedulePage() {
   if (!BOOKING_ENABLED) {

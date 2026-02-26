@@ -236,11 +236,11 @@ export const sessionTypes = [
  * The photographer can override prices per session in the admin panel.
  */
 export const sessionPricing: Record<string, number> = {
-  portrait: 25000,    // $250
-  family: 35000,      // $350
+  portrait: 10000,    // $100
+  family: 10000,      // $100
   wedding: 250000,    // $2,500
-  headshot: 15000,    // $150
-  event: 75000,       // $750
-  newborn: 30000,     // $300
-  engagement: 20000,  // $200
+  headshot: 5000,     // $50
+  event: 5000,        // $50
+  newborn: 10000,     // $100
+  engagement: 10000,  // $100
 };
