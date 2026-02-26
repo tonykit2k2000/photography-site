@@ -75,6 +75,8 @@
 
 .navItem {
   position: relative;
+  padding-bottom: 0.5rem;
+  margin-bottom: -0.5rem;
 }
 
 .link {
@@ -122,8 +124,7 @@
     visibility var(--transition-fast);
 }
 
-.navItem:hover .dropdown,
-.navItem:focus-within .dropdown {
+.navItem:hover .dropdown {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
